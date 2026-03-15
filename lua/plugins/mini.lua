@@ -1,0 +1,191 @@
+return {
+  {
+    "nvim-mini/mini.surround",
+    version = false,
+    event = "BufEnter",
+    opts = {},
+  },
+  {
+    "nvim-mini/mini.pairs",
+    version = false,
+    event = "InsertEnter",
+    opts = {},
+  },
+  {
+    "nvim-mini/mini.tabline",
+    dependencies = { "nvim-mini/mini.icons" },
+    version = false,
+    -- opts = {},
+    config = function()
+      local tabline_loaded = false
+
+      local function maybe_enable_tabline()
+        if tabline_loaded then
+          return
+        end
+
+        local buffers = vim.fn.getbufinfo({ buflisted = 1 })
+        if #buffers > 1 then
+          require("mini.tabline").setup()
+          tabline_loaded = true
+        end
+      end
+
+      maybe_enable_tabline()
+
+      vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
+        callback = maybe_enable_tabline,
+      })
+    end,
+  },
+  {
+    enabled = true,
+    "nvim-mini/mini.statusline",
+    event = "VeryLazy",
+    dependencies = { "nvim-mini/mini.icons" },
+    version = false,
+    opts = {
+      content = {
+        active = function()
+          local MiniStatusline = require("mini.statusline")
+
+          local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+          local git = MiniStatusline.section_git({ trunc_width = 40 })
+          local diff = MiniStatusline.section_diff({ trunc_width = 75 })
+          local diagnostics = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+          local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
+          local filename = MiniStatusline.section_filename({ trunc_width = 140 })
+          local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+          local location = MiniStatusline.section_location({ trunc_width = 75 })
+          local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+          return MiniStatusline.combine_groups({
+            { hl = mode_hl, strings = { mode:gsub("(%a)[^%-]*%-?", "%1") } },
+            { hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics, lsp } },
+            "%<", -- Mark general truncate point
+            { hl = "MiniStatuslineFilename", strings = { filename } },
+            "%=", -- End left alignment
+            { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+            { hl = mode_hl, strings = { search, location } },
+          })
+        end,
+      },
+    },
+  },
+  {
+    -- NOTE: Replaced by blink.cmp
+    enabled = false,
+    "nvim-mini/mini.completion",
+    dependencies = {
+      { "nvim-mini/mini.icons", opts = {} },
+    },
+    version = false,
+    opts = {},
+  },
+  {
+    enabled = true,
+    "nvim-mini/mini.sessions",
+    version = false,
+    event = "VeryLazy",
+    config = function()
+      local mini_sessions = require("mini.sessions")
+
+      mini_sessions.setup({
+        autoread = false,
+        autowrite = true,
+      })
+
+      vim.keymap.set("n", "<leader>qs", function()
+        ---@diagnostic disable-next-line: undefined-field
+        mini_sessions.write(vim.fn.fnamemodify(vim.loop.cwd(), ":t"))
+      end, { desc = "Save session (cwd name)" })
+
+      vim.keymap.set("n", "<leader>qS", function()
+        local name = vim.fn.input("Session name: ")
+        if name ~= "" then
+          mini_sessions.write(name)
+        end
+      end, { desc = "Save session as..." })
+
+      vim.keymap.set("n", "<leader>qr", function()
+        mini_sessions.select()
+      end, { desc = "Restore session" })
+
+      vim.keymap.set("n", "<leader>qd", function()
+        mini_sessions.select("delete")
+      end, { desc = "Delete session" })
+    end,
+  },
+  {
+    enabled = false,
+    "nvim-mini/mini.jump",
+    version = false,
+    event = "VeryLazy",
+    config = function()
+      local mini_jump = require("mini.jump")
+
+      mini_jump.setup({
+        delay = {
+          highlight = 50,
+          idle_stop = 2000,
+        },
+        silent = false,
+      })
+
+      local jump_stop = function()
+        if not mini_jump.state.jumping then
+          return "<Esc>"
+        end
+        mini_jump.stop_jumping()
+      end
+      local opts = { expr = true, desc = "Stop jumping" }
+      vim.keymap.set({ "n", "x", "o" }, "<Esc>", jump_stop, opts)
+    end,
+  },
+  {
+    enabled = true,
+    "nvim-mini/mini.jump2d",
+    version = false,
+    event = "VeryLazy",
+    config = function()
+      local mini_jump2d = require("mini.jump2d")
+
+      mini_jump2d.setup({
+        view = {
+          dim = true,
+          n_steps_ahead = 2,
+        },
+        silent = true,
+      })
+
+      vim.keymap.set(
+        { "o", "x", "n" },
+        "<CR>",
+        "<CMD>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<CR>",
+        { desc = "Jump anywhere" }
+      )
+    end,
+  },
+  {
+    enabled = true,
+    "nvim-mini/mini.diff",
+    version = false,
+    event = "VeryLazy",
+    opts = {
+      view = {
+        style = "sign",
+        signs = {
+          add = "▎",
+          change = "▎",
+          delete = "▎",
+        },
+      },
+    },
+  },
+  {
+    enabled = false,
+    "nvim-mini/mini-git",
+    version = false,
+    opts = {},
+  },
+}

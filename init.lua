@@ -1,0 +1,7 @@
+require("config.options")
+require("config.keymaps")
+require("config.autocmds")
+require("config.lsp")
+require("config.lazy")
+
+require("core.colorscheme").load()
