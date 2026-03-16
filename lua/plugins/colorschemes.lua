@@ -19,8 +19,7 @@ return {
           SnacksPickerPreview = { bg = c.mantle },
           SnacksPickerPreviewBorder = { bg = c.mantle, fg = c.mantle },
           SnacksPickerPreviewTitle = { bg = c.sky, fg = c.surface0 },
-
-          SnacksPickerSignColumn = { bg = c.mantle },
+          SnacksPickerPreviewSignColumn = { bg = c.mantle },
         }
       end,
     },
