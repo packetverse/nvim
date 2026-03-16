@@ -37,6 +37,9 @@ return {
     formatters_by_ft = {
       lua = { "stylua" },
       rust = { "rustfmt", lsp_format = "fallback" },
+      toml = { "tombi" },
+      yaml = { "yamlfmt", lsp_format = "fallback" },
+      python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
     },
     format_on_save = function(bufnr)
       if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
