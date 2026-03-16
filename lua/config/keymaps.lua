@@ -1,4 +1,5 @@
 local core = require("core")
+local shell_utils = require("core.shell")
 
 -- Misc
 core.keymap("n", "<leader>L", ":Lazy<CR>", "Open Lazy")
@@ -93,3 +94,8 @@ core.keymap("n", "<leader>fp", function()
   vim.fn.setreg("+", file_path)
   print("file path copied to clipboard: " .. file_path)
 end, "Copy file path to clipboard")
+
+-- Custom shell picker
+core.keymap("n", "<leader>us", function()
+  shell_utils.select_shell()
+end, "Select shell with custom picker")
