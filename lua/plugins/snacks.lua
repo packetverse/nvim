@@ -163,7 +163,7 @@ return {
               width = 0.6,
               border = "rounded",
               wo = {
-                winhighlight = "Normal:SnacksPickerPreview,FloatTitle:SnacksPickerPreviewTitle,FloatBorder:SnacksPickerPreviewBorder,SignColumn:SnacksPickerSignColumn",
+                winhighlight = "Normal:SnacksPickerPreview,FloatTitle:SnacksPickerPreviewTitle,FloatBorder:SnacksPickerPreviewBorder,SignColumn:SnacksPickerPreviewSignColumn",
               },
             },
           },
