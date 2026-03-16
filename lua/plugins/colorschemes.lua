@@ -63,6 +63,9 @@ return {
         hl.SnacksPickerPreviewTitle = { bg = c.orange, fg = c.fg_gutter }
         hl.SnacksPickerPreviewSignColumn = { bg = c.bg_float, fg = c.bg_float }
 
+        hl.SnacksPickerSelectBorder = { bg = c.bg_float, fg = c.bg_float }
+        hl.SnacksPickerSelectTitle = { bg = c.purple, fg = c.fg_gutter }
+        hl.SnacksPickerSelectInputBorder = { bg = c.bg_float, fg = c.bg_float }
         hl.MiniJump2dSpot = { fg = c.orange, bg = c.bg_float, bold = true }
         hl.MiniJump2dSpotUnique = { fg = c.green, bg = c.bg_float, bold = true }
         hl.MiniJump2dSpotAhead = { fg = c.blue, bg = c.bg_float }
