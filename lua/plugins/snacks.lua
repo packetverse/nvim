@@ -312,6 +312,14 @@ return {
       end,
       desc = "Toggle explorer",
     },
+    {
+      "<leader>t",
+      function()
+        require("snacks").terminal()
+      end,
+      nowait = true,
+      desc = "Toggle floating terminal",
+    },
 
     -- find
     {
