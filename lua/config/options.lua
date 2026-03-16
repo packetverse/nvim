@@ -52,3 +52,6 @@ opt.cmdheight = 1
 opt.ignorecase = true
 opt.smartcase = true
 opt.scrolloff = 5
+
+-- shell
+vim.opt.shell = require("core.shell").load_default()
