@@ -116,7 +116,7 @@ return {
     },
   },
   {
-    enabled = false,
+    enabled = true,
     "nvim-mini/mini.jump",
     version = false,
     event = "VeryLazy",
