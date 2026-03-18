@@ -10,8 +10,11 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Highlight yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
-    vim.highlight.on_yank()
-  end
+    vim.highlight.on_yank({
+      higroup = "Visual",
+      timeout = 150,
+    })
+  end,
 })
 
 -- BUG: Seems to be not working as of now
