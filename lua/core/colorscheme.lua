@@ -3,7 +3,9 @@ local M = {}
 local persist_file = vim.fn.stdpath("state") .. "/colorscheme"
 
 function M.set(name)
-  if not name then return end
+  if not name then
+    return
+  end
 
   vim.cmd.colorscheme(name)
 
@@ -21,7 +23,9 @@ function M.load()
     f:close()
     if name then
       local ok = pcall(vim.cmd.colorscheme, name)
-      if ok then return end
+      if ok then
+        return
+      end
     end
   end
 
