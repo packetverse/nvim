@@ -13,30 +13,10 @@ return {
   },
   {
     "nvim-mini/mini.tabline",
+    event = "VeryLazy",
     dependencies = { "nvim-mini/mini.icons" },
     version = false,
-    -- opts = {},
-    config = function()
-      local tabline_loaded = false
-
-      local function maybe_enable_tabline()
-        if tabline_loaded then
-          return
-        end
-
-        local buffers = vim.fn.getbufinfo({ buflisted = 1 })
-        if #buffers > 1 then
-          require("mini.tabline").setup()
-          tabline_loaded = true
-        end
-      end
-
-      maybe_enable_tabline()
-
-      vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
-        callback = maybe_enable_tabline,
-      })
-    end,
+    opts = {},
   },
   {
     enabled = true,
