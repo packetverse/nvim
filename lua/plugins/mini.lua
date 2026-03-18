@@ -44,43 +44,53 @@ return {
     event = "VeryLazy",
     dependencies = { "nvim-mini/mini.icons" },
     version = false,
-    opts = {
-      content = {
-        active = function()
-          local MiniStatusline = require("mini.statusline")
+    config = function()
+      _G.macro_recording = ""
 
-          local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-          local git = MiniStatusline.section_git({ trunc_width = 40 })
-          local diff = MiniStatusline.section_diff({ trunc_width = 75 })
-          local diagnostics = MiniStatusline.section_diagnostics({ trunc_width = 75 })
-          local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
-          local filename = MiniStatusline.section_filename({ trunc_width = 140 })
-          local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
-          local location = MiniStatusline.section_location({ trunc_width = 75 })
-          local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+      local MiniStatusline = require("mini.statusline")
 
-          return MiniStatusline.combine_groups({
-            { hl = mode_hl, strings = { mode:gsub("(%a)[^%-]*%-?", "%1") } },
-            { hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics, lsp } },
-            "%<", -- Mark general truncate point
-            { hl = "MiniStatuslineFilename", strings = { filename } },
-            "%=", -- End left alignment
-            { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
-            { hl = mode_hl, strings = { search, location } },
-          })
+      vim.api.nvim_create_autocmd("RecordingEnter", {
+        callback = function()
+          _G.macro_recording = "Recording @" .. vim.fn.reg_recording()
+          vim.cmd("redrawstatus")
         end,
-      },
-    },
-  },
-  {
-    -- NOTE: Replaced by blink.cmp
-    enabled = false,
-    "nvim-mini/mini.completion",
-    dependencies = {
-      { "nvim-mini/mini.icons", opts = {} },
-    },
-    version = false,
-    opts = {},
+      })
+
+      vim.api.nvim_create_autocmd("RecordingLeave", {
+        callback = function()
+          _G.macro_recording = ""
+          vim.cmd("redrawstatus")
+        end,
+      })
+
+      MiniStatusline.setup({
+        content = {
+          active = function()
+            local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+            local git = MiniStatusline.section_git({ trunc_width = 40 })
+            local diff = MiniStatusline.section_diff({ trunc_width = 75 })
+            local diagnostics = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+            local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
+            local filename = MiniStatusline.section_filename({ trunc_width = 140 })
+            local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+            local location = MiniStatusline.section_location({ trunc_width = 75 })
+            local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+            local macro = _G.macro_recording
+
+            return MiniStatusline.combine_groups({
+              { hl = mode_hl, strings = { mode:gsub("(%a)[^%-]*%-?", "%1") } },
+              { hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics, lsp } },
+              "%<", -- Mark general truncate point
+              { hl = "MiniStatuslineFilename", strings = { filename } },
+              "%=", -- End left alignment
+              { hl = "MiniStatuslineFileinfo", strings = { macro } },
+              { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+              { hl = mode_hl, strings = { search, location } },
+            })
+          end,
+        },
+      })
+    end,
   },
   {
     enabled = true,
