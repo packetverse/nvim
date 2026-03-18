@@ -55,17 +55,33 @@ return {
     priority = 1000,
     opts = {
       on_highlights = function(hl, c)
+        -- snacks.nvim picker input
         hl.SnacksPickerInput = { bg = c.bg }
         hl.SnacksPickerInputBorder = { bg = c.bg, fg = c.bg }
         hl.SnacksPickerInputTitle = { bg = c.purple, fg = c.fg_gutter }
+
+        -- snacks.nvim picker preview
         hl.SnacksPickerPreview = { bg = c.bg_float }
         hl.SnacksPickerPreviewBorder = { bg = c.bg_float, fg = c.bg_float }
         hl.SnacksPickerPreviewTitle = { bg = c.orange, fg = c.fg_gutter }
         hl.SnacksPickerPreviewSignColumn = { bg = c.bg_float, fg = c.bg_float }
 
+        -- snacks.nvim picker icon toggles
+        hl.SnacksPickerToggle = { bg = c.purple, fg = c.fg_gutter }
+
+        -- snacks.nvim `vim.ui.select`
         hl.SnacksPickerSelectBorder = { bg = c.bg_float, fg = c.bg_float }
         hl.SnacksPickerSelectTitle = { bg = c.purple, fg = c.fg_gutter }
         hl.SnacksPickerSelectInputBorder = { bg = c.bg_float, fg = c.bg_float }
+
+        -- snacks.nvim zen mode
+        hl.SnacksZenBackdrop = { bg = c.bg_float }
+
+        -- snacks.nvim notification history
+        hl.SnacksNotifierHistoryBorderTitle = { bg = c.purple, fg = c.fg_gutter }
+        hl.SnacksNotifierHistoryBorder = { bg = c.bg, fg = c.bg }
+
+        -- mini.jump2d
         hl.MiniJump2dSpot = { fg = c.orange, bg = c.bg_float, bold = true }
         hl.MiniJump2dSpotUnique = { fg = c.green, bg = c.bg_float, bold = true }
         hl.MiniJump2dSpotAhead = { fg = c.blue, bg = c.bg_float }
