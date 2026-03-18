@@ -1,101 +1,95 @@
-local core = require("core")
-local shell_utils = require("core.shell")
-
 -- Misc
-core.keymap("n", "<leader>L", ":Lazy<CR>", "Open Lazy")
+vim.keymap.set("n", "<leader>L", "<CMD>Lazy<CR>", { desc = "Open Lazy" })
 
 -- Writing and saving
-core.keymap("n", "<leader>w", ":write<CR>", "Save current buffer")
--- core.keymap("n", "<leader>q", ":bdelete<CR>", "Quit current buffer")
--- core.keymap("n", "<leader>x", ":bdelete<CR>", "Quit current buffer")
--- core.keymap("n", "<leader>q", ":quit<CR>", "Quit current buffer")
-core.keymap("n", "<leader>x", ":quit<CR>", "Quit")
--- core.keymap("n", "<leader>x", ":write | quit<CR>", "Save and quit")
-core.keymap("n", "<leader>so", ":so %<CR>", "Source current file")
+vim.keymap.set("n", "<leader>w", "<CMD>write<CR>", { desc = "Save current buffer" })
+vim.keymap.set("n", "<leader>x", "<CMD>quit<CR>", { desc = "Quit" })
+vim.keymap.set("n", "<leader>so", "<CMD>so %<CR>", { desc = "Source current file" })
 
 -- Window/split navigation
-core.keymap("n", "<C-h>", "<C-w>h", "Navigate to left window")
-core.keymap("n", "<C-j>", "<C-w>j", "Navigate to down window")
-core.keymap("n", "<C-k>", "<C-w>k", "Navigate to up window")
-core.keymap("n", "<C-l>", "<C-w>l", "Navigate to right window")
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Navigate to left window" })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Navigate to down window" })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Navigate to up window" })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Navigate to right window" })
 
-core.keymap("n", "<leader>sv", "<C-w>v", "Split vertically")
-core.keymap("n", "<leader>sh", "<C-w>s", "Split horizontally")
-core.keymap("n", "<leader>se", "<C-w>=", "Split horizontally")
-core.keymap("n", "<leader>sx", ":close<CR>", "Close split")
-core.keymap("n", "<leader>sm", function()
-  core.toggle_maximize()
-end, "Toggle maximize split")
+vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split vertically" })
+vim.keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split horizontally" })
+vim.keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make split equal size" })
+vim.keymap.set("n", "<leader>sx", "<CMD>close<CR>", { desc = "Close split" })
+vim.keymap.set("n", "<leader>sm", function()
+  require("core.utils").toggle_maximize()
+end, { desc = "Toggle maximize split" })
 
 -- Buffer navigation
-core.keymap("n", "<leader>bn", ":bnext<CR>", "Next buffer")
-core.keymap("n", "<leader>bp", ":bprevious<CR>", "Previous buffer")
-core.keymap("n", "<leader>bd", ":bdelete<CR>", "Delete current buffer")
+vim.keymap.set("n", "<leader>bn", "<CMD>bnext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>bp", "<CMD>bprevious<CR>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>bd", "<CMD>bdelete<CR>", { desc = "Delete current buffer" })
 
-core.keymap_range("n", 1, 9, function(i)
-  return "<M-" .. i .. ">"
-end, core.go_to_buffer, "Go to buffer")
+for i = 1, 9 do
+  vim.keymap.set("n", "<M-" .. i .. ">", function()
+    require("core.utils").goto_buffer(i)
+  end, { silent = true, desc = "Go to buffer " .. i })
+end
 
 -- Tab navigation
-core.keymap("n", "<leader>to", ":tabnew<CR>", "Open new tab")
-core.keymap("n", "<leader>tx", ":tabclose<CR>", "Close current tab")
-core.keymap("n", "tn", ":tabnext<CR>", "Navigate to next tab")
-core.keymap("n", "tp", ":tabprevious<CR>", "Navigate to previous tab")
+vim.keymap.set("n", "<leader>to", "<CMD>tabnew<CR>", { desc = "Open new tab" })
+vim.keymap.set("n", "<leader>tx", "<CMD>tabclose<CR>", { desc = "Close current tab" })
+vim.keymap.set("n", "tn", "<CMD>tabnext<CR>", { desc = "Navigate to next tab" })
+vim.keymap.set("n", "tp", "<CMD>tabprevious<CR>", { desc = "Navigate to previous tab" })
 
 -- Move lines in visual mode
-core.keymap("v", "J", ":m '>+1<CR>gv=gv", "Moves lines down in VISUAL selection")
-core.keymap("v", "K", ":m '<-2<CR>gv=gv", "Moves lines up in VISUAL selection")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { silent = true, desc = "Moves lines down in VISUAL selection" })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { silent = true, desc = "Moves lines up in VISUAL selection" })
 
 -- Clear search highlight
-core.keymap("n", "<C-c>", ":nohl<CR>", "Clear search highlight")
-core.keymap("n", "<Esc>", ":nohl<CR>", "Clear search highlight")
+vim.keymap.set("n", "<C-c>", "<CMD>nohl<CR>", { desc = "Clear search highlight" })
 
--- Exit terminal mode with ESC
-core.keymap("t", "<Esc>", "<C-\\><C-n>", "Exit terminal mode")
+-- Exit terminal mode with Esc
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Naviate splits within terminal with keybind
-core.keymap("t", "<C-h>", "<C-\\><C-n><C-w><C-h>", "Navigate to left window")
-core.keymap("t", "<C-j>", "<C-\\><C-n><C-w><C-j>", "Navigate to down window")
-core.keymap("t", "<C-k>", "<C-\\><C-n><C-w><C-k>", "Navigate to up window")
-core.keymap("t", "<C-l>", "<C-\\><C-n><C-w><C-l>", "Navigate to right window")
+vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w><C-h>", { desc = "Navigate to left window" })
+vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w><C-j>", { desc = "Navigate to down window" })
+vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w><C-k>", { desc = "Navigate to up window" })
+vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w><C-l>", { desc = "Navigate to right window" })
 
 -- Properly move between highlighted search results
-core.keymap("n", "n", "nzzzv")
-core.keymap("n", "n", "nzzzv")
+vim.keymap.set("n", "n", "nzzzv", { desc = "Move to next match and center cursor" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Move to previous match and center cursor" })
 
 -- Center when scrolling down and upwards
-core.keymap("n", "<C-d>", "<C-d>zz")
-core.keymap("n", "<C-u>", "<C-u>zz")
-core.keymap("n", "<C-f>", "<C-f>zz")
-core.keymap("n", "<C-b>", "<C-b>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down half-page and center cursor" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up half-page and center cursor" })
+vim.keymap.set("n", "<C-f>", "<C-f>zz", { desc = "Scroll down page and center cursor" })
+vim.keymap.set("n", "<C-b>", "<C-b>zz", { desc = "Scroll up page and center cursor" })
 
 -- Disable arrow keys in almost all modes
-local modes = { "n", "i", "v", "o", "t", "s", "x" }
-local arrows = { "<Up>", "<Down>", "<Left>", "<Right>" }
+local arrow_modes = { "n", "i", "v", "o", "t", "s", "x" }
+local arrow_keys = { "<Up>", "<Down>", "<Left>", "<Right>" }
 
-for _, mode in ipairs(modes) do
-  for _, key in ipairs(arrows) do
-    core.keymap(mode, key, "<Nop>")
+for _, mode in ipairs(arrow_modes) do
+  for _, key in ipairs(arrow_keys) do
+    vim.keymap.set(mode, key, "<Nop>")
   end
 end
 
 -- Map Alt + hjkl in insert mode to prevent switching between normal and insert frequently
-local enabledModes = { "i", "c", "o", "t", "s", "x" }
-local altKeys = { h = "<Left>", j = "<Down>", k = "<Up>", l = "<Right>" }
-for _, mode in ipairs(enabledModes) do
-  for key, mapping in pairs(altKeys) do
-    core.keymap(mode, "<M-" .. key .. ">", mapping, "Alt + " .. key .. " in " .. mode .. " mode")
+local alt_modes = { "i", "c", "o", "t", "s", "x" }
+local alt_keys = { h = "<Left>", j = "<Down>", k = "<Up>", l = "<Right>" }
+for _, mode in ipairs(alt_modes) do
+  for key, mapping in pairs(alt_keys) do
+    vim.keymap.set(mode, "<M-" .. key .. ">", mapping, { desc = "Alt + " .. key .. " in " .. mode .. " mode" })
   end
 end
 
 -- Copy filepath to clipboard
-core.keymap("n", "<leader>fp", function()
+vim.keymap.set("n", "<leader>fp", function()
   local file_path = vim.fn.expand("%:~")
   vim.fn.setreg("+", file_path)
   print("file path copied to clipboard: " .. file_path)
-end, "Copy file path to clipboard")
+end, { desc = "Copy file path to clipboard" })
 
 -- Custom shell picker
-core.keymap("n", "<leader>us", function()
-  shell_utils.select_shell()
-end, "Select shell with custom picker")
+vim.keymap.set("n", "<leader>us", function()
+  require("core.shell").select_shell()
+end, { desc = "Select shell with custom picker" })
