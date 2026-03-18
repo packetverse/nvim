@@ -16,7 +16,9 @@ vim.diagnostic.config({
 })
 
 -- LSP loading
-lsp_core.load_lsps()
+vim.schedule(function()
+  require("core.lsp").load_lsps()
+end)
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("nine/lsp", {}),
