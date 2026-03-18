@@ -1,5 +1,3 @@
-local lsp_core = require("core.lsp")
-
 -- Diagnostics configuration
 vim.diagnostic.config({
   virtual_text = {
@@ -29,13 +27,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- Keymaps
     vim.keymap.set("n", "<leader>ls", function()
-      lsp_core.stop_lsps(bufnr)
+      require("core.lsp").stop_lsps(bufnr)
     end, opts)
     vim.keymap.set("n", "<leader>lr", function()
-      lsp_core.restart_lsps(bufnr)
+      require("core.lsp").restart_lsps(bufnr)
     end, opts)
     vim.keymap.set("n", "<leader>li", function()
-      lsp_core.get_lsps(bufnr)
+      require("core.lsp").get_lsps(bufnr)
     end, opts)
     vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
 
