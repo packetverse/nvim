@@ -2,7 +2,7 @@ return {
   {
     "nvim-mini/mini.surround",
     version = false,
-    event = "BufEnter",
+    event = { "BufReadPost", "BufNewFile" },
     opts = {},
   },
   {
@@ -146,7 +146,7 @@ return {
     enabled = true,
     "nvim-mini/mini.jump2d",
     version = false,
-    event = "VeryLazy",
+    keys = { "<CR>" },
     config = function()
       local mini_jump2d = require("mini.jump2d")
 
@@ -169,8 +169,8 @@ return {
   {
     enabled = true,
     "nvim-mini/mini.diff",
+    event = { "BufReadPost", "BufNewFile" },
     version = false,
-    event = "VeryLazy",
     opts = {
       view = {
         style = "sign",
