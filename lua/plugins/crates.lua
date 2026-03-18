@@ -10,5 +10,5 @@ return {
         hover = true,
       },
     })
-  end
+  end,
 }
