@@ -370,7 +370,7 @@ return {
       function()
         require("snacks").picker.git_status()
       end,
-      desc = "Git log line",
+      desc = "Git status",
     },
     {
       "<leader>gS",
