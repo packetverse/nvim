@@ -1,21 +1,8 @@
----@diagnostic disable: unused-local
 return {
   "folke/snacks.nvim",
   lazy = false,
   dependencies = { "nvim-lua/plenary.nvim", "nvim-mini/mini.icons" },
   priority = 1000,
-  init = function()
-    -- Set highlights for snacks.nvim
-    vim.api.nvim_create_autocmd("ColorScheme", {
-      group = vim.api.nvim_create_augroup("SnacksHighlightsCustom", { clear = true }),
-      callback = function()
-        vim.schedule(function()
-          -- Highlights for zen
-          vim.api.nvim_set_hl(0, "SnacksZenBackdrop", { link = "Normal" })
-        end)
-      end,
-    })
-  end,
   opts = {
     bigfile = { enabled = false },
     dashboard = {
@@ -43,13 +30,6 @@ return {
           { icon = " ", key = "r", desc = "Restore Session", section = "session" },
           { icon = " ", key = "q", desc = "Quit", action = ":qa" },
         },
-
-        -- {
-        --   title = "Recent Projects",
-        --   section = "projects",
-        --   indent = 2,
-        --   padding = 1,
-        -- },
 
         {
           title = "Maintenance Actions",
