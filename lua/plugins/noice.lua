@@ -56,6 +56,7 @@ return {
         if search_cmd == "/" then
           for i, match in ipairs(matches) do
             local m_row, m_col = match[1], match[2]
+            ---@diagnostic disable-next-line: need-check-nil
             if m_row > start_pos[1] or (m_row == start_pos[1] and m_col >= start_pos[2]) then
               best_match_idx = i
               break
@@ -68,6 +69,7 @@ return {
           for i = #matches, 1, -1 do
             local match = matches[i]
             local m_row, m_col = match[1], match[2]
+            ---@diagnostic disable-next-line: need-check-nil
             if m_row < start_pos[1] or (m_row == start_pos[1] and m_col < start_pos[2]) then
               best_match_idx = i
               break
@@ -100,6 +102,7 @@ return {
 
       local function jump_final()
         if not accept then
+          ---@diagnostic disable-next-line: param-type-mismatch
           vim.api.nvim_win_set_cursor(0, start_pos)
           return
         end
@@ -171,6 +174,7 @@ return {
             return
           end
 
+          ---@diagnostic disable-next-line: cast-local-type
           cur_idx = match_index()
           jump()
 
