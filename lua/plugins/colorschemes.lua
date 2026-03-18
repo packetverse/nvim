@@ -86,6 +86,12 @@ return {
         hl.MiniJump2dSpotUnique = { fg = c.green, bg = c.bg_float, bold = true }
         hl.MiniJump2dSpotAhead = { fg = c.blue, bg = c.bg_float }
         hl.MiniJump2dDim = { fg = c.comment }
+
+        -- oil.nvim
+        hl.OilFloatTitle = { bg = c.purple, fg = c.fg_gutter }
+        hl.OilFloatBorder = { bg = c.bg_float, fg = c.bg_float }
+        hl.OilPreviewTitle = { bg = c.bg_float, fg = c.fg_gutter }
+        hl.OilPreviewBorder = { bg = c.bg_float, fg = c.bg_float }
       end,
     },
   },
