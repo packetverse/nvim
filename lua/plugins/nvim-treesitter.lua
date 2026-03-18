@@ -84,5 +84,5 @@ return {
     -- })
     --
     -- echo_status("Treesitter bootstrap complete. Safe to exit.", vim.log.levels.INFO)
-  end
+  end,
 }
