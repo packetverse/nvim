@@ -96,35 +96,44 @@ return {
     enabled = true,
     "nvim-mini/mini.sessions",
     version = false,
-    event = "VeryLazy",
-    config = function()
-      local mini_sessions = require("mini.sessions")
-
-      mini_sessions.setup({
-        autoread = false,
-        autowrite = true,
-      })
-
-      vim.keymap.set("n", "<leader>qs", function()
-        ---@diagnostic disable-next-line: undefined-field
-        mini_sessions.write(vim.fn.fnamemodify(vim.loop.cwd(), ":t"))
-      end, { desc = "Save session (cwd name)" })
-
-      vim.keymap.set("n", "<leader>qS", function()
-        local name = vim.fn.input("Session name: ")
-        if name ~= "" then
-          mini_sessions.write(name)
-        end
-      end, { desc = "Save session as..." })
-
-      vim.keymap.set("n", "<leader>qr", function()
-        mini_sessions.select()
-      end, { desc = "Restore session" })
-
-      vim.keymap.set("n", "<leader>qd", function()
-        mini_sessions.select("delete")
-      end, { desc = "Delete session" })
-    end,
+    opts = {
+      autoread = false,
+      autowrite = true,
+    },
+    keys = {
+      {
+        "<leader>qs",
+        function()
+          ---@diagnostic disable: undefined-field
+          require("mini.sessions").write(vim.fn.fnamemodify(vim.loop.cwd(), ":t"))
+        end,
+        "Save session (cwd name)",
+      },
+      {
+        "<leader>qS",
+        function()
+          local name = vim.fn.input("Session name: ")
+          if name ~= "" then
+            require("mini.sessions").write(name)
+          end
+        end,
+        "Save session as...",
+      },
+      {
+        "<leader>qr",
+        function()
+          require("mini.sessions").select()
+        end,
+        "Restore session",
+      },
+      {
+        "<leader>qd",
+        function()
+          require("mini.sessions").select("delete")
+        end,
+        "Delete session",
+      },
+    },
   },
   {
     enabled = false,
