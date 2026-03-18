@@ -46,7 +46,7 @@ opt.undofile = true
 opt.cursorline = true
 opt.updatetime = 200
 opt.ruler = false
-opt.cmdheight = 1
+opt.cmdheight = 0
 
 -- search
 opt.ignorecase = true
