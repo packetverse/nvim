@@ -187,6 +187,11 @@ return {
           winblend = 0,
         },
       },
+      notification_history = {
+        wo = {
+          winhighlight = "Normal:SnacksNotifierHistory,FloatTitle:SnacksNotifierHistoryBorderTitle,FloatBorder:SnacksNotifierHistoryBorder",
+        },
+      },
       custom_zen = {
         enter = true,
         fixbuf = false,
