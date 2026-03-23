@@ -88,8 +88,3 @@ vim.keymap.set("n", "<leader>fp", function()
   vim.fn.setreg("+", file_path)
   print("file path copied to clipboard: " .. file_path)
 end, { desc = "Copy file path to clipboard" })
-
--- Custom shell picker
-vim.keymap.set("n", "<leader>us", function()
-  require("core.shell").select_shell()
-end, { desc = "Select shell with custom picker" })
