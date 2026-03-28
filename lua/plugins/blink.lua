@@ -1,7 +1,12 @@
 return {
   "saghen/blink.cmp",
   event = { "InsertEnter", "CmdlineEnter" },
-  dependencies = { "rafamadriz/friendly-snippets" },
+  dependencies = {
+    "disrupted/blink-cmp-conventional-commits",
+    "moyiz/blink-emoji.nvim",
+    "Kaiser-Yang/blink-cmp-git",
+    "xzbdmw/colorful-menu.nvim",
+  },
   build = "cargo build --release",
   opts = {
     signature = {
@@ -18,25 +23,14 @@ return {
       menu = {
         auto_show = true, -- disable to use only ghost text
         draw = {
-          -- nvim-cmp style
-          -- columns = {
-          --   { "label", "label_description", gap = 1 }, { "kind_icon", "kind" },
-          -- },
+          columns = { { "kind_icon" }, { "label", gap = 1 } },
           components = {
-            kind_icon = {
+            label = {
               text = function(ctx)
-                local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
-                return kind_icon
+                return require("colorful-menu").blink_components_text(ctx)
               end,
               highlight = function(ctx)
-                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-                return hl
-              end,
-            },
-            kind = {
-              highlight = function(ctx)
-                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-                return hl
+                return require("colorful-menu").blink_components_highlight(ctx)
               end,
             },
           },
@@ -80,7 +74,50 @@ return {
       },
     },
     sources = {
+      default = {
+        "lsp",
+        "buffer",
+        "snippets",
+        "path",
+        "conventional_commits",
+        "emoji",
+        "lazydev",
+        "git",
+      },
       providers = {
+        conventional_commits = {
+          name = "Conventional Commits",
+          module = "blink-cmp-conventional-commits",
+          enabled = function()
+            return vim.bo.filetype == "gitcommit"
+          end,
+        },
+        emoji = {
+          name = "Emoji",
+          module = "blink-emoji",
+          score_offset = 15,
+          opts = {
+            insert = true,
+            trigger = function()
+              return { ":" }
+            end,
+          },
+          should_show_items = function()
+            return vim.tbl_contains({ "gitcommit", "markdown" }, vim.o.filetype)
+          end,
+        },
+        lazydev = {
+          name = "LazyDev",
+          module = "lazydev.integrations.blink",
+          score_offset = 100,
+        },
+        git = {
+          name = "Git",
+          module = "blink-cmp-git",
+          enabled = function()
+            return vim.tbl_contains({ "octo", "gitcommit", "markdown" }, vim.bo.filetype)
+          end,
+        },
         cmdline = {
           min_keyword_length = function(ctx)
             if ctx.mode == "cmdline" and string.find(ctx.line, " ") then
