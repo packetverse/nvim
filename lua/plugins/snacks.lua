@@ -161,7 +161,7 @@ return {
     scroll = { enabled = false },
     statuscolumn = { enabled = false },
     words = {
-      enabled = true,
+      enabled = false,
     },
     zen = {
       enabled = true,
