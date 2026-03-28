@@ -1,6 +1,6 @@
 return {
   enabled = true,
-  lazy = false,
+  event = "VeryLazy",
   "packetverse/shelly.nvim",
   opts = {},
   keys = {
