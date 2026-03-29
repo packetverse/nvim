@@ -83,6 +83,7 @@ return {
         "emoji",
         "lazydev",
         "git",
+        "ecolog",
       },
       providers = {
         conventional_commits = {
@@ -118,14 +119,18 @@ return {
             return vim.tbl_contains({ "octo", "gitcommit", "markdown" }, vim.bo.filetype)
           end,
         },
-        cmdline = {
-          min_keyword_length = function(ctx)
-            if ctx.mode == "cmdline" and string.find(ctx.line, " ") then
-              return 3
-            end
-            return 0
-          end,
+        ecolog = {
+          name = "Ecolog",
+          module = "ecolog.integrations.cmp.blink_cmp",
         },
+        -- cmdline = {
+        --   min_keyword_length = function(ctx)
+        --     if ctx.mode == "cmdline" and string.find(ctx.line, " ") then
+        --       return 3
+        --     end
+        --     return 0
+        --   end,
+        -- },
       },
     },
   },
