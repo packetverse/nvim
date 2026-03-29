@@ -1,5 +1,5 @@
 return {
-  enabled = false,
+  enabled = true,
   "nvim-treesitter/nvim-treesitter",
   branch = "master",
   lazy = false,
@@ -10,6 +10,7 @@ return {
       "comment",
       "dockerfile",
       "gitignore",
+      "html",
       "json",
       "lua",
       "markdown",
@@ -21,9 +22,12 @@ return {
       "python",
     }
 
+    ---@diagnostic disable: missing-fields
     require("nvim-treesitter.configs").setup({
       ensure_installed = langs,
+      sync_install = false,
       auto_install = false,
+      ignore_install = {},
       highlight = {
         enable = true,
         ---@diagnostic disable-next-line: unused-local
